@@ -1,0 +1,215 @@
+
+<style>
+
+  :host {
+    --overlay-background-color:                   var(--app-background-color);
+    --overlay-toolbar-color:                      var(--light-text-color);
+    --overlay-toolbar-background-color:           var(--app-dark-color);
+    --overlay-toolbar-background-parallax-height: 140%;
+    --overlay-toolbar-background-cover-opacity:   0.3;
+    --overlay-bottom-toolbar-text-width:          100%;
+    display:          none;
+    position:         absolute;
+    top:              0px;
+    left:             0px;
+    width:            100%;
+    min-height:       100vh;
+    opacity:          0;
+    background-color: var(--overlay-background-color);
+    padding-bottom:   128px; /* important for ios scroll behavior */
+  }
+
+  app-header {
+    color:            var(--overlay-toolbar-color);
+    background-color: var(--overlay-toolbar-background-color);
+    width:            100%;
+    will-change:      transform;
+  }
+
+  .title {
+    @apply --title-mixin;
+  }
+
+  .noSelect {
+    @apply --no-select-mixin;
+  }
+
+  .title-margin {
+    margin-left: 40px;
+  }
+
+  .push-right {
+    margin-right: auto;    
+  }
+
+  .truncate {
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+  }
+
+  #headerBackgroundSlotContainer {
+    display:        flex;
+    align-items:    center;
+    position:       absolute;
+    top:            0px;
+    bottom:         0px;
+    left:           0px;
+    right:          0px;
+    pointer-events: none;
+    overflow:       hidden;
+  }
+
+  #headerBackgroundParallaxContainer {
+    /* overflow container by 20% (default of 140%) top and bottom */
+    height:   var(--overlay-toolbar-background-parallax-height); 
+    width:    100%;
+    position: relative;
+  }
+
+  #headerBackgroundOpacityOverlay {
+    position:       absolute;
+    top:            0px;
+    bottom:         0px;
+    left:          -5px; /* ios hack */
+    right:         -5px; /* ios hack */
+    pointer-events: none;
+    opacity:        var(--overlay-toolbar-background-cover-opacity);
+    background:     radial-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+  }
+
+  #bottomToolbarTextDiv {
+    max-width: var(--overlay-bottom-toolbar-text-width);
+  }
+
+  #bottomToolbarButtonsContainer {
+    transition: 0.2s opacity ease-in;
+  }
+
+  #bottomToolbarButtonsContainer.fade-out {
+    opacity: 0;
+  }
+
+  #bottomToolbarTabsContainer {
+    width: 100%;
+  }
+
+  #fabContainer {
+    position:   absolute;
+    right:      16px;
+    opacity:    0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  #fabContainer.shrink-to-hidden {
+    transform: scale3d(0, 0, 0);
+  }
+
+  #overlayContent {
+    display:     block; /* important for ios */
+    /* safari scroll flicker workaround */
+    transition:  opacity 0.2s ease-in;
+  }
+
+</style>
+
+
+<!-- do not use 'has-scroll-region' in app-header-layout so that 
+     it will use the document scroller for proper ios useage -->
+<app-header-layout id="layout">
+  <template id="tallHeaderDomIf" 
+            is="dom-if" 
+            if="[[_headerIsTall]]">
+    <!-- app-header effects set imperitively -->
+    <app-header id="overlayHeader" 
+                slot="header" 
+                scroll-target="document"
+                condenses
+                threshold="[[threshold]]"
+                on-threshold-triggered-changed="__headerThresholdTriggered"> 
+      <div id="headerBackgroundSlotContainer">
+        <div id="headerBackgroundParallaxContainer">
+          <slot id="headerBackgroundSlot" name="header-background-slot"></slot>
+        </div>
+        <div id="headerBackgroundOpacityOverlay"></div>
+      </div>
+      <app-toolbar id="topToolbar">
+        <paper-icon-button icon="app-icons:arrow-back" 
+                           on-click="__backButtonClicked">
+        </paper-icon-button>
+        <div id="overlayTitleDiv" 
+             class="noSelect push-right truncate">
+          [[title]]
+        </div>
+        <slot id="top-toolbar-buttons-slot" name="top-toolbar-buttons-slot"></slot>
+        <template is="dom-if" 
+                  if="[[closeButton]]">
+          <paper-icon-button icon="app-icons:close" 
+                             on-click="__closeButtonClicked">
+          </paper-icon-button>
+        </template>
+      </app-toolbar>
+      <template is="dom-repeat" 
+                items="[[__createMiddleToolbars(headerSize)]]">
+        <app-toolbar>
+          <slot name="[[item.slotName]]"></slot>
+        </app-toolbar>
+      </template>
+      <app-toolbar id="bottomToolbar">
+        <div id="bottomToolbarTextDiv" 
+             class$="noSelect truncate [[__computeBottomTitleClass(bottomToolbarText)]]" 
+             hidden="[[_headerHasTabs]]">
+          [[__computeBottomToolbarText(bottomToolbarText, title, topTitle)]]
+        </div>
+        <span id="bottomToolbarButtonsContainer" 
+              hidden="[[_headerHasTabs]]">
+          <slot id="bottomToolbarButtonsSlot" name="bottom-toolbar-buttons-slot"></slot>
+        </span>
+        <div id="bottomToolbarTabsContainer" 
+             hidden="[[!_headerHasTabs]]">
+          <slot id="bottomToolbarTabsSlot" name="bottom-toolbar-tabs-slot"></slot>
+        </div>
+      </app-toolbar>
+      <div id="fabContainer">
+        <slot id="fabSlot" name="fab-slot"></slot>
+      </div>
+
+    </app-header>
+  </template>
+
+  <template id="smallHeaderDomIf" 
+            is="dom-if" 
+            if="[[!_headerIsTall]]">
+    <app-header id="overlayHeader" 
+                slot="header" 
+                scroll-target="document"
+                condenses 
+                effects="waterfall"
+                threshold="[[threshold]]"
+                on-threshold-triggered-changed="__headerThresholdTriggered">
+      <app-toolbar>
+        <slot name="header-background-slot"></slot>
+        <paper-icon-button icon="app-icons:arrow-back" 
+                           on-click="__backButtonClicked">
+        </paper-icon-button>
+        <div main-title 
+             class="noSelect push-right truncate">
+          [[title]]
+        </div>
+        <slot id="top-toolbar-buttons-slot" name="top-toolbar-buttons-slot"></slot>
+        <template is="dom-if" 
+                  if="[[closeButton]]">
+          <paper-icon-button icon="app-icons:close" 
+                             on-click="__closeButtonClicked">
+          </paper-icon-button>
+        </template>
+      </app-toolbar>
+    </app-header>
+  </template>
+
+  <div id="overlayContent">
+    <slot id="content-slot" name="content"></slot>
+  </div>
+
+</app-header-layout>
+    

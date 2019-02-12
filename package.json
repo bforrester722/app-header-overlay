@@ -1,0 +1,36 @@
+{
+  "name": "@spriteful/app-header-overlay",
+  "version": "1.0.0",
+  "description": "configurable overlay with a header",
+  "main": "app-header-overlay.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spriteful/app-header-overlay.git"
+  },
+  "author": "Spriteful spritefuldev@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spriteful/app-header-overlay/issues"
+  },
+  "homepage": "https://github.com/spriteful/app-header-overlay#readme",
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.2",
+    "@polymer/paper-icon-button": "^3.0.2",
+    "@polymer/polymer": "^3.1.0",
+    "@spriteful/app-icons": "^1.0.0",
+    "@spriteful/overlay-mixin": "^1.0.0",
+    "@spriteful/spriteful-element": "^1.0.4",
+    "@spriteful/utils": "^1.1.6"
+  },
+  "devDependencies": {
+    "@polymer/iron-demo-helpers": "^3.0.2",
+    "@polymer/test-fixture": "^4.0.2",
+    "@webcomponents/webcomponentsjs": "^2.2.7",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "wct-mocha": "^1.0.0"
+  }
+}
