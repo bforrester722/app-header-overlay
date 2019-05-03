@@ -7,7 +7,9 @@
   *   --overlay-toolbar-color:                      default --light-text-color
   *   --overlay-toolbar-background-color:           default --app-dark-color
   *   --overlay-toolbar-background-parallax-height: default 140% / set to 100% when disableParallax is true
-  *   --overlay-toolbar-background-cover-opacity:   default 0.3
+  *   --overlay-toolbar-background-cover-opacity:   Deprecated. Use --overlay-toolbar-vignette-opacity
+  *   --overlay-toolbar-vignette-opacity:           default 0.3
+  *   --overlay-toolbar-vignette-background:        default radial-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
   *
   *
   *   Slots:
@@ -172,7 +174,7 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
       // ref for dynamically created (inside dom-if) toolbar background slot container
       _toolbarBackgroundContainer: Object,
       // opacity gradient image overlay
-      _toolbarBackgroundOverlay: Object,
+      _toolbarBackgroundVignette: Object,
       // ref for oversized div inside _toolbarBackgroundContainer 
       // that is translated on scroll to give parallax behavior
       // used for the background slot and SpritefulHeaderImageMixin
@@ -333,7 +335,7 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
           this._toolbarBackgroundNodePresent = this.slotHasNodes('#headerBackgroundSlot');
           this._toolbarBackgroundContainer   = this.select('#headerBackgroundSlotContainer');
           this._toolbarBackgroundParallax    = this.select('#headerBackgroundParallaxContainer');
-          this._toolbarBackgroundOverlay     = this.select('#headerBackgroundOpacityOverlay');
+          this._toolbarBackgroundVignette    = this.select('#headerBackgroundVignette');
           this._titleDiv                     = this.select('#overlayTitleDiv');
           this._bottomToolbarTextDiv         = this.select('#bottomToolbarTextDiv');
           this._topToolbar                   = this.select('#topToolbar');
@@ -413,7 +415,7 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
     const size      = this.headerSize;
     const finalSize = 1 / size;
     const scale     = ((size - 1) * fade) / size + finalSize;
-    this._toolbarBackgroundOverlay.style.transform = `translateY(${top / 2}px) scaleY(${scale})`;
+    this._toolbarBackgroundVignette.style.transform = `translateY(${top / 2}px) scaleY(${scale})`;
     this._toolbarBackgroundContainer.style.opacity = `${fade}`;
     if (!this.disableParallax) {
       this._toolbarBackgroundParallax.style.transform = `translateY(${parallax}px)`;
@@ -491,8 +493,8 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
 
   // called by overlay-control-mixin if resetScroll is true
   resetHeaderParallaxContainer() {
-    if (!this._toolbarBackgroundOverlay) { return; }
-    this._toolbarBackgroundOverlay.style.transform  = '';
+    if (!this._toolbarBackgroundVignette) { return; }
+    this._toolbarBackgroundVignette.style.transform = '';
     this._toolbarBackgroundContainer.style.opacity  = '1';  
     this._toolbarBackgroundParallax.style.transform = '';
     this._bottomToolbarTextDiv.style.opacity        = '1';

@@ -6,8 +6,17 @@
     --overlay-toolbar-color:                      var(--light-text-color);
     --overlay-toolbar-background-color:           var(--app-dark-color);
     --overlay-toolbar-background-parallax-height: 140%;
-    --overlay-toolbar-background-cover-opacity:   0.3;
-    --overlay-bottom-toolbar-text-width:          100%;
+    --overlay-toolbar-vignette-background:        radial-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+    /* 
+
+      --overlay-toolbar-vignette-opacity
+
+      More meaningful naming than older --overlay-toolbar-background-cover-opacity, 
+      but also backward compatable
+    */
+    --overlay-toolbar-background-cover-opacity: 0.3; /* Deprecated. Same el as --overlay-toolbar-vignette-opacity */
+    --overlay-toolbar-vignette-opacity:         var(--overlay-toolbar-background-cover-opacity);
+    --overlay-bottom-toolbar-text-width:        100%;
     display:          none;
     position:         absolute;
     top:              0px;
@@ -67,15 +76,16 @@
     position: relative;
   }
 
-  #headerBackgroundOpacityOverlay {
+  #headerBackgroundVignette {
     position:       absolute;
     top:            0px;
     bottom:         0px;
     left:          -5px; /* ios hack */
     right:         -5px; /* ios hack */
     pointer-events: none;
-    opacity:        var(--overlay-toolbar-background-cover-opacity);
-    background:     radial-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+    /* backward compat with older name */
+    opacity:        var(--overlay-toolbar-vignette-opacity);
+    background:     var(--overlay-toolbar-vignette-background);
   }
 
   #bottomToolbarTextDiv {
@@ -131,7 +141,7 @@
         <div id="headerBackgroundParallaxContainer">
           <slot id="headerBackgroundSlot" name="header-background-slot"></slot>
         </div>
-        <div id="headerBackgroundOpacityOverlay"></div>
+        <div id="headerBackgroundVignette"></div>
       </div>
       <app-toolbar id="topToolbar">
         <paper-icon-button icon="app-icons:arrow-back" 
