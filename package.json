@@ -1,6 +1,6 @@
 {
   "name": "@spriteful/app-header-overlay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "configurable overlay with a header",
   "main": "app-header-overlay.js",
   "scripts": {
