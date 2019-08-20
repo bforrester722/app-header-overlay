@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@polymer/app-layout@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@polymer/app-layout/-/app-layout-3.0.2.tgz#8a6f3c87b405635fd3547db82db8dbb6c51b6bf9"
-  integrity sha512-qKcQHj72uGxGoetjnNQ7pg4F6Da4U5jKBzZy0VRmDuZMUPDmtIqHaIgC5K6B4y+xUag0gkV9ce72Q3hNaK9y+g==
+"@polymer/app-layout@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@polymer/app-layout/-/app-layout-3.1.0.tgz#b146cd2ce202e079ac51059a4fcaef03f5b2f3c4"
+  integrity sha512-+jf5/TtUDj/la9Vi59ooGNjnTN8JTkyIUK8gxAms0N3MmyeqrmcNLlJKDVyE6IIGKz0WfFeGKqKtmtTLHrZIlg==
   dependencies:
     "@polymer/iron-flex-layout" "^3.0.0-pre.26"
     "@polymer/iron-media-query" "^3.0.0-pre.26"
@@ -180,12 +180,12 @@
   dependencies:
     "@webcomponents/shadycss" "^1.5.2"
 
-"@polymer/polymer@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.2.0.tgz#b41fddec4ecac63b12936b93726678d23add7afd"
-  integrity sha512-L6uV1oM6T6xbwbVx6t3biG5T2VSSB03LxnIrUd9M2pr6RkHVPFHJ37pC5MUwBAEhkGFJif7eks7fdMMSGZTeEQ==
+"@polymer/polymer@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.3.0.tgz#52a0665ac29654728e8f46e8ee178c02c49efdd0"
+  integrity sha512-rij7suomS7DxdBamnwr/Xa0V5hpypf7I9oYKseF2FWz5Xh2a3wJNpVjgJy1adXVCxqIyPhghsrthnfCt7EblsQ==
   dependencies:
-    "@webcomponents/shadycss" "^1.8.0"
+    "@webcomponents/shadycss" "^1.9.1"
 
 "@polymer/prism-element@^3.0.0-pre.25":
   version "3.0.1"
@@ -208,10 +208,10 @@
     "@spriteful/lambda" "^1.3.3"
     "@spriteful/utils" "^1.1.6"
 
-"@spriteful/app-icons@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@spriteful/app-icons/-/app-icons-1.0.6.tgz#df494886a31f192c3e5e575ebe28b1fa0acc2ea6"
-  integrity sha512-S3+Luky6pAMjYXD+evOhzBXZxeyBW1LtwPdsvP12h/FCTWWRHatfuOSF0D8Lvv45LoKlZ6Nz0OzMTqqf1wT+WQ==
+"@spriteful/app-icons@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@spriteful/app-icons/-/app-icons-1.0.8.tgz#e690dee73df5df3a1fab7006da5c9d0173eb9c25"
+  integrity sha512-REZ9H/nM9HTagvhC2a8kGOB9Dx1EPbEdvWlVEq0KfxHSxb9qHBqiBSqm2JOnIiXZ7K6+FVeodswBqGNrrwjiCg==
   dependencies:
     "@polymer/iron-iconset-svg" "^3.0.1"
 
@@ -275,7 +275,7 @@
   resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.9.0.tgz#8450465037370d4f5c32e801bb2554a7cf2f5037"
   integrity sha512-g8Xa+6RSEME4g/wLJW4YII0eq15rvXp76RxPAuv7hx+Bdoi7GzZJ/EoZOUfyIbqAsQbII1TcWD4/+Xhs5NcM1w==
 
-"@webcomponents/shadycss@^1.8.0":
+"@webcomponents/shadycss@^1.9.1":
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.9.1.tgz#d769fbadfa504f11b84caeef26701f89070ec49a"
   integrity sha512-IaZOnWOKXHghqk/WfPNDRIgDBi3RsVPY2IFAw6tYiL9UBGvQRy5R6uC+Fk7qTZsReTJ0xh5MTT8yAcb3MUR4mQ==
@@ -757,10 +757,10 @@ mkdirp@0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mocha@^6.1.4:
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-6.1.4.tgz#e35fada242d5434a7e163d555c705f6875951640"
-  integrity sha512-PN8CIy4RXsIoxoFJzS4QNnCH4psUCPWc4/rPrst/ecSJJbLBkubMiyGCP2Kj/9YnWbotFqAoeXyXMucj7gwCFg==
+mocha@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-6.2.0.tgz#f896b642843445d1bb8bca60eabd9206b8916e56"
+  integrity sha512-qwfFgY+7EKAAUAdv7VYMZQknI7YJSGesxHyhn6qD52DV8UcSZs5XwCifcZGMVIE4a5fbmhvbotxC0DLQ0oKohQ==
   dependencies:
     ansi-colors "3.2.3"
     browser-stdout "1.3.1"
@@ -1057,10 +1057,10 @@ type-detect@^4.0.0, type-detect@^4.0.5:
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==
 
-wct-mocha@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/wct-mocha/-/wct-mocha-1.0.0.tgz#2e83938572cb854740773cf1dc21f25358446c62"
-  integrity sha512-rvDjW4kJMV8/lpihKMDHMZwycT5ALtoLni/Q0Ggdg1rPRpIW5pjoslSR/UIl2gWRMYqAs9nFRVYxASwEYG6brA==
+wct-mocha@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wct-mocha/-/wct-mocha-1.0.1.tgz#296723bacc131a2e5cdaf642e459cb9a1311a230"
+  integrity sha512-7k4krdiFcODjdo9uAxHDNpFm8AwFZUhKdUXMIdoJZzF6NHq3aONrvv/uPYvTDGYZxap4mEO53kSl/RDKIv8b8g==
 
 which-module@^2.0.0:
   version "2.0.0"

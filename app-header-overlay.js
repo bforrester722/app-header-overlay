@@ -36,21 +36,43 @@
   *
   *     Properties:
   *
+  *
   *     bottomToolbarText <String> '',        lower-left toolbar text
+  *
   *     closeButton <Boolean>                 undefined, includes a close button in upper-right toolbar when true
+  *
+  *     disableAutoSticky <Boolean>           when true, skip setting bottom toolbar to sticky automatically based
+  *                                           off bottom toolbar contents or lack thereof
+  *
+  *     disableCondense <Boolean> false,      removes condenses attribute on header
+  *
   *     disableParallax <Boolean> undefined,  turn off header-background-slot container's parallax effect
+  *
+  *     disableWarnings <Boolean> undefined,  quelsh warnings about having too many items in the bottom toolbar
+  *
   *     fixedHeader <Boolean>  undefined,     fixes the top toolbar by default, use in conjunction with
   *                                           stickyBottomToolbar to create different effects
+  *
   *     headerSize <Number> 1,                multiple of toolbars to give the header
+  *
+  *     parentControlsExits <Boolean>,        when true, header will not close itself with back/close buttons 
+  *
   *     resetScroll <Boolean> undefined,      set scroll to 0 and place header back to initial state each time the
   *                                           overlay is opened
+  *
   *     revealHeader <Boolean> undefined,     header comes into view when scrolling back to top
+  *
+  *     stickyBottomToolbar <Boolean>,        pin bottom toolbar instead of top toolbar during scroll
+  *
   *     threshold <Number> 0,                 used to control when a 'threshold-triggered-changed' event is fired
   *                                           based on header scroll position
+  *
   *     title <String> 'Title',               header main-title that will resize from bottom toolbar to top on scroll
   *                                           if topTitle is false and/or no bottomToolbarText is present
+  *
   *     topTitle <Boolean> undefined,         override standard title condense effect (from bottom toolbar to top)
   *                                           and pin title to top toolbar
+  *
   *
   *
   *     Methods:
@@ -109,7 +131,16 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
       // scrollable content div ref used by app-shell overlay controller
       content: Object,
 
+      disableAutoSticky: Boolean,      
+
+      disableCondense: {
+        type: Boolean,
+        value: false
+      },
+
       disableParallax: Boolean,
+
+      disableWarnings: Boolean,
 
       fixedHeader: Boolean,
       // header panel ref used by this element and app-shell overlay controller
@@ -201,7 +232,8 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
     return [
       '__setHeaderBackgroundContainerDisplay(_toolbarBackgroundNodePresent, _toolbarBackgroundContainer)',
       '__bottomToolbarContentChanged(bottomToolbarText, _headerHasTabs, header, _titleDiv, _bottomToolbarTextDiv, topTitle)',
-      '__setStickyToolbar(stickyBottomToolbar, _headerHasTabs, header, _topToolbar, _bottomToolbar)',
+      '__setStickyToolbar(stickyBottomToolbar, disableAutoSticky, _headerHasTabs, header, _topToolbar, _bottomToolbar)',
+      '__disableCondenseChanged(condenseHeader)',
       '__fixedHeaderChanged(fixedHeader)',
       '__revealHeaderChanged(revealHeader)',
       '__disableParallaxChanged(disableParallax)'
@@ -257,6 +289,11 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
   }
 
 
+  __disableCondenseChanged(bool) {
+    this.__setHeaderAttribute(!bool, 'condenses');
+  }
+
+
   __fixedHeaderChanged(bool) {
     this.__setHeaderAttribute(bool, 'fixed');
   }
@@ -289,10 +326,10 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
   }
 
 
-  __setStickyToolbar(stickyBottomToolbar, headerHasTabs, header, topToolbar, bottomToolbar) {
+  __setStickyToolbar(stickyBottomToolbar, disableAutoSticky, headerHasTabs, header, topToolbar, bottomToolbar) {
     if (!header || !topToolbar || !bottomToolbar) { return; }
 
-    if (stickyBottomToolbar || headerHasTabs) {
+    if ((stickyBottomToolbar || headerHasTabs) && !disableAutoSticky) {
       header.setAttribute('fixed', true);
       topToolbar.removeAttribute('sticky');
       bottomToolbar.setAttribute('sticky', true);
@@ -324,9 +361,10 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
       if (templateId === 'smallHeaderDomIf' || templateId === 'tallHeaderDomIf') {
         unlisten(key);
         this.header  = this.select('#overlayHeader');
-        this.content = this.select('#overlayContent');
-        this.__setHeaderAttribute(this.fixedHeader,  'fixed');
-        this.__setHeaderAttribute(this.revealHeader, 'reveals');
+        this.content = this.select('#overlayContent');        
+        this.__setHeaderAttribute(!this.disableCondense, 'condenses');
+        this.__setHeaderAttribute(this.fixedHeader,      'fixed');
+        this.__setHeaderAttribute(this.revealHeader,     'reveals');
         if (templateId === 'tallHeaderDomIf') {
           const bottomToolbarButtonsPresent  = this.slotHasNodes('#bottomToolbarButtonsSlot');
           this._headerFabPresent             = this.slotHasNodes('#fabSlot');
@@ -342,7 +380,7 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
           this._bottomToolbar                = this.select('#bottomToolbar');
           // wait for full layout before measuring header
           await schedule();
-          this._headerHeight  = this.header.getBoundingClientRect().height;
+          this._headerHeight = this.header.getBoundingClientRect().height;
 
           if (bottomToolbarButtonsPresent) {
             this._bottomToolbarButtonsContainer = this.select('#bottomToolbarButtonsContainer');
@@ -351,6 +389,9 @@ class SpritefulAppHeaderOverlay extends SpritefulOverlayMixin(SpritefulElement) 
             this._fabContainer = this.select('#fabContainer');
             this.__placeFab();
           }
+
+          if (this.disableWarnings) { return; }
+
           if (bottomToolbarButtonsPresent && this._headerFabPresent) {
             console.warn(
               'spriteful-header-overlay cannot have both bottom toolbar buttons and a header fab!  ', 
