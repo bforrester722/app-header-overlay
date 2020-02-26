@@ -121,6 +121,14 @@
     transition:  opacity 0.2s ease-in;
   }
 
+   @media print {
+    :host { 
+        min-height:   10vh;
+        display:      none;
+        visibility:   hidden;
+      }
+  }
+
 </style>
 
 
